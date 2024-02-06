@@ -1,32 +1,77 @@
 // Uncomment the code below and write your tests
-// import { simpleCalculator, Action } from './index';
+import { simpleCalculator, Action } from './index';
+
+const wrongArgString = 'wrong argument';
+const wrongArgUndefined = undefined;
+const wrongArgObject = { k: 'kmon' };
+
+const correctArg1 = 6;
+const correctArg2 = 3;
 
 describe('simpleCalculator tests', () => {
   test('should add two numbers', () => {
-    // Write your test here
+    expect(
+      simpleCalculator({ a: correctArg1, b: correctArg2, action: Action.Add }),
+    ).toBe(9);
   });
 
   test('should subtract two numbers', () => {
-    // Write your test here
+    expect(
+      simpleCalculator({
+        a: correctArg1,
+        b: correctArg2,
+        action: Action.Subtract,
+      }),
+    ).toBe(3);
   });
 
   test('should multiply two numbers', () => {
-    // Write your test here
+    expect(
+      simpleCalculator({
+        a: correctArg1,
+        b: correctArg2,
+        action: Action.Multiply,
+      }),
+    ).toBe(18);
   });
 
   test('should divide two numbers', () => {
-    // Write your test here
+    expect(
+      simpleCalculator({
+        a: correctArg1,
+        b: correctArg2,
+        action: Action.Divide,
+      }),
+    ).toBe(2);
   });
 
   test('should exponentiate two numbers', () => {
-    // Write your test here
+    expect(
+      simpleCalculator({
+        a: correctArg1,
+        b: correctArg2,
+        action: Action.Exponentiate,
+      }),
+    ).toBe(216);
   });
 
   test('should return null for invalid action', () => {
-    // Write your test here
+    expect(
+      simpleCalculator({
+        a: 4,
+        b: 5,
+        action: wrongArgObject,
+      }),
+    ).toBe(null);
   });
 
   test('should return null for invalid arguments', () => {
-    // Write your test here
+    expect(
+      simpleCalculator({
+        a: wrongArgString,
+        b: wrongArgUndefined,
+        action: Action.Add,
+      }),
+    ).toBe(null);
   });
 });
