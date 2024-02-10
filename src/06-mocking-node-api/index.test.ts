@@ -1,7 +1,20 @@
 // Uncomment the code below and write your tests
-import path from 'path';
-import fs from 'fs/promises';
 import { readFileAsynchronously, doStuffByTimeout, doStuffByInterval } from '.';
+import path = require('path');
+
+const trueFileNameExample = 'true-example.txt';
+const falseFileNameExample = 'false-example.txt';
+const trueFileContent = 'lorem ipsum...';
+const falseFileContent = 'no content because there is no such file';
+
+jest.mock('fs', () => ({
+  existsSync: (path: string) => path.includes(trueFileNameExample),
+}));
+
+jest.mock('fs/promises', () => ({
+  readFile: async (path: string) =>
+    path.includes(trueFileNameExample) ? trueFileContent : falseFileContent,
+}));
 
 describe('doStuffByTimeout', () => {
   beforeAll(() => {
@@ -87,25 +100,12 @@ describe('readFileAsynchronously', () => {
   });
 
   test('should return null if file does not exist', async () => {
-    const pathToFile = 'example.txt';
-    const content = await readFileAsynchronously(pathToFile);
-
-    try {
-      await fs.access(pathToFile);
-    } catch (error) {
-      expect(content).toBeNull();
-    }
+    const result = await readFileAsynchronously(falseFileNameExample);
+    expect(result).toBeNull();
   });
 
   test('should return file content if file exists', async () => {
-    const pathToFile = 'example.txt';
-    const content = await readFileAsynchronously(pathToFile);
-
-    try {
-      await fs.access(pathToFile);
-      const fileContent = await fs.readFile(path.join(__dirname, pathToFile));
-
-      expect(content).toBe(fileContent);
-    } catch (error) {}
+    const content = await readFileAsynchronously(trueFileNameExample);
+    expect(content).toBe(trueFileContent);
   });
 });
